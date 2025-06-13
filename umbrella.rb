@@ -33,7 +33,29 @@ parsed_response_2 = JSON.parse(response_2)
 
 currently_hash = parsed_response_2.fetch("currently")
 current_temp = currently_hash.fetch("temperature")
-hourly_hash = parsed_response_2.fetch("hourly")
-summary = hourly_hash.fetch("summary")
+minutely_hash = parsed_response_2.fetch("minutely")
+next_hour = minutely_hash.fetch("summary")
 
-puts "The current temperature: #{current_temp}. In the next hour: #{summary}"
+#Forecast
+hourly_hash = parsed_response_2.fetch("hourly")
+data = hourly_hash.fetch("data")
+precip = false
+puts "The current temperature: #{current_temp}"
+puts next_hour
+data[1..12].each do |hour|
+  probs = hour.fetch("precipProbability")
+  if probs > 0.10
+    precip = true
+    precip_time = Time.at(hour.fetch("time"))
+    seconds_from_now = precip_time - Time.now
+    hours_from_now = seconds_from_now / 60 / 60
+
+    puts "In #{hours_from_now.round} hours, there is a #{(probs * 100).round}% chance of precipitation."
+  end
+end
+
+if precip == true
+  puts "You might want to bring an umbrella today!"
+else
+  puts "You won't need an umbrella today."
+end

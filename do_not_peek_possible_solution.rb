@@ -42,7 +42,7 @@ puts "Your coordinates are #{latitude}, #{longitude}."
 
 # Get the weather from Pirate Weather API
 
-pirate_weather_key = ENV.fetch("PIRATE_WEATHER_KEY")
+pirate_weather_key = ENV.fetch("WEATHER_KEY")
 
 pirate_weather_url = "https://api.pirateweather.net/forecast/#{pirate_weather_key}/#{latitude},#{longitude}"
 
